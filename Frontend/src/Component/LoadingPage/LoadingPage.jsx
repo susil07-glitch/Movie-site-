@@ -1,15 +1,17 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Navbar from '../Navbar/Navbar'
 import Footter from '../Footer/Footter'
+import { useNavigate } from 'react-router-dom'
+import HomePage from '../Pages/HomePage'
 
 const LoadingPage = () => {
+  
   return (
     <div>
-  <meta charSet="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cinema Explorer</title>
+  
   <style dangerouslySetInnerHTML={{__html: "\n@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');\n        \n        body {\n            font-family: 'Inter', sans-serif;\n        }\n        \n        .movie-card {\n            transition: all 0.3s ease;\n            background: linear-gradient(145deg, #1f2937, #374151);\n        }\n        \n        .movie-card:hover {\n            transform: translateY(-8px) scale(1.02);\n            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);\n        }\n        \n        .genre-badge {\n            background: linear-gradient(45deg, #3b82f6, #8b5cf6);\n            animation: pulse 2s infinite;\n        }\n        \n        .hero-bg {\n            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);\n            position: relative;\n            overflow: hidden;\n        }\n        \n        .hero-bg::before {\n            content: '';\n            position: absolute;\n            top: 0;\n            left: 0;\n            right: 0;\n            bottom: 0;\n            background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"grain\" width=\"100\" height=\"100\" patternUnits=\"userSpaceOnUse\"><circle cx=\"25\" cy=\"25\" r=\"1\" fill=\"%23ffffff\" opacity=\"0.05\"/><circle cx=\"75\" cy=\"75\" r=\"1\" fill=\"%23ffffff\" opacity=\"0.03\"/><circle cx=\"50\" cy=\"10\" r=\"0.5\" fill=\"%23ffffff\" opacity=\"0.08\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23grain)\"/></svg>');\n            pointer-events: none;\n        }\n        \n        .floating-animation {\n            animation: float 6s ease-in-out infinite;\n        }\n        \n        @keyframes float {\n            0%, 100% { transform: translateY(0px); }\n            50% { transform: translateY(-20px); }\n        }\n        \n        .spotlight {\n            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.3) 0%, transparent 70%);\n            position: absolute;\n            width: 400px;\n            height: 400px;\n            border-radius: 50%;\n            pointer-events: none;\n            animation: spotlight 8s linear infinite;\n        }\n        \n        @keyframes spotlight {\n            0% { transform: translate(-50%, -50%) rotate(0deg); }\n            100% { transform: translate(-50%, -50%) rotate(360deg); }\n        }\n        \n        .film-strip {\n            background: repeating-linear-gradient(\n                90deg,\n                #374151 0px,\n                #374151 20px,\n                #1f2937 20px,\n                #1f2937 40px\n            );\n            height: 8px;\n        }\n        \n        .glow-text {\n            text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);\n        }\n        \n        .rating-stars {\n            background: linear-gradient(45deg, #fbbf24, #f59e0b);\n            -webkit-background-clip: text;\n            -webkit-text-fill-color: transparent;\n            background-clip: text;\n        }\n    " }} />
-  {/* Header */}
+  
   <Navbar/>
   {/* Hero Section */}
   <section id="home" className="hero-bg min-h-screen flex items-center justify-center relative">
@@ -23,10 +25,13 @@ const LoadingPage = () => {
         Discover the magic of movies - from Hollywood blockbusters to indie masterpieces, 
         explore the world of cinema like never before.
       </p>
-      <div className="flex flex-wrap justify-center gap-4">
-        <button className="bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 rounded-full font-semibold hover:scale-105 transform transition-all duration-300 shadow-lg hover:shadow-blue-500/25" onclick="showSection('genres')">
+      <div className="flex flex-wrap justify-center gap-4" >
+        <Link to='/home'>
+        <button className="bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 rounded-full font-semibold hover:scale-105 transform transition-all duration-300 shadow-lg hover:shadow-blue-500/25 cursor-pointer" >
           Explore Genres
         </button>
+        </Link>
+        
         <button className="border-2 border-white/30 px-8 py-4 rounded-full font-semibold hover:bg-white/10 transition-all duration-300" onclick="showSection('trending')">
           What's Trending
         </button>

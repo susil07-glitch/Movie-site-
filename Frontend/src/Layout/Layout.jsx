@@ -1,16 +1,17 @@
 import React from 'react'
 import Navbar from '../Component/Pages/Navbar'
+import Footter from '../Component/Footer/Footter'
 
 const Layout = ({children}) => {
   return (
-    <div>
+    <>
       <Navbar/>
       {children}
-      
+      <Footter/>
 
       
       
-    </div>
+    </>
   )
 }
 

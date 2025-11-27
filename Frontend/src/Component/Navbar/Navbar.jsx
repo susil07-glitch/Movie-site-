@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom'
 const Navbar = () => {
   return (
     <div>
@@ -11,10 +11,12 @@ const Navbar = () => {
           
         </div>
         <nav className="flex space-x-6">
-          <button className="hover:text-blue-400 transition-colors" onclick="showSection('home')">Home</button>
-          <button className="hover:text-blue-400 transition-colors" onclick="showSection('genres')">Genres</button>
-          <button className="hover:text-blue-400 transition-colors" onclick="showSection('trending')">Trending</button>
-          <button className="hover:text-blue-400 transition-colors" onclick="showSection('awards')">Awards</button>
+          <Link to='/home'>
+          <button className="hover:text-blue-400 transition-colors" >Home</button>
+          </Link>
+          <button className="hover:text-blue-400 transition-colors" >Genres</button>
+          <button className="hover:text-blue-400 transition-colors" >Trending</button>
+          <button className="hover:text-blue-400 transition-colors" >Awards</button>
         </nav>
       </div>
     </div>
