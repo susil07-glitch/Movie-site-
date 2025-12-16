@@ -1,6 +1,6 @@
 import React from 'react'
-import Navbar from '../Navbar/Navbar'
-import Footter from '../Footer/Footter'
+import Navbar from '../src/Component/Navbar/Navbar'
+import Footter from '../src/Component/Footer/Footter'
 
 const PlayingZone = () => {
   return (
