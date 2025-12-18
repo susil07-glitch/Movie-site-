@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '../src/Component/Navbar/Navbar'
 import PlayingZone from './PlayingZone'
-import Poster from './Poster/Poster'
+
 
 const HomePage = () => {
   return (
@@ -12,7 +12,7 @@ const HomePage = () => {
       
     </div>
   
-  <Poster/>
+ 
       
   {/* Anime Grid */}
   <section className="px-0.5 py-2 max-w-7xl mx-auto">
