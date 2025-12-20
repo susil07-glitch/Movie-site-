@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Navbar from '../src/Component/Navbar/Navbar'
+import Navbar from '../Component/Navbar/Navbar'
 import PlayingZone from './PlayingZone'
 
 
