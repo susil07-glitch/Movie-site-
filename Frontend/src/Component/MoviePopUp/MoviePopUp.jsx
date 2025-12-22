@@ -1,21 +1,23 @@
-import React from "react";
-
+import React, { useContext } from "react";
+import {Rating} from "react-simple-star-rating"
+import { PopUpContex } from "../../Contex/MoviePopUpContex";
 function MoviePopUp(props) {
+
+  const {showModal ,setShowModal}=useContext(PopUpContex)
  
   return (
     <>
-      {PopupMessage}
-      {showModal && (
+      
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-auto mt-24 sm:my-6 mx-4 max-w-3xl">
-              {/*content*/}
-              <Fade bottom duration={500}>
+             
+              
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-neutral-800 outline-none focus:outline-none">
-                  {/*header*/}
+                 
                   <button
                     className="group p-1 ml-2 mt-2 backdrop-blur-[20px] bg-transparent border-2 border-white hover:bg-white hover:text-black fixed right-4 rounded-full cursor-pointer float-right font-semibold outline-none focus:outline-none ease-linear transition-all duration-150"
-                    onClick={() => setShowModal(false)}
+                    
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -33,18 +35,14 @@ function MoviePopUp(props) {
                     </svg>
                   </button>
                   {/*Movie Trailer or Image*/}
-                  {PopupInfo.backdrop_path ? (
-                    <img src={`${imageUrl + PopupInfo.backdrop_path}`} />
-                  ) : null}
+                  
+                  
 
                   <div className="flex ml-4 items-center -mt-14">
                     <button
                       className="flex items-center justify-center bg-red-800 text-white active:bg-red-800 font-medium sm:font-bold uppercase text-xs px-4 sm:px-6 md:text-sm  py-2 rounded shadow hover:shadow-lg cursor-pointer outline-none focus:outline-none mr-3 mb-1 ease-linear transition-all duration-150"
                       type="button"
-                      onClick={() => {
-                        setShowModal(false);
-                        playMovie(PopupInfo);
-                      }}
+                     
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -60,10 +58,10 @@ function MoviePopUp(props) {
                       </svg>
                       Play
                     </button>
-                    {props.from === "LikedMovies" ? (
+                    
                       <div
-                        onClick={() => removeFromLikedMovies(PopupInfo)}
-                        className="text-white w-10 h-10 border-[2px] rounded-full p-2 mr-1 backdrop-blur-[1px] hover:bg-white hover:text-black shadow-md cursor-pointer ease-linear transition-all duration-150"
+                        
+                        className="text-white w-10 h-10 border-2px rounded-full p-2 mr-1 backdrop-blur-[1px] hover:bg-white hover:text-black shadow-md cursor-pointer ease-linear transition-all duration-150"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -79,10 +77,10 @@ function MoviePopUp(props) {
                           />
                         </svg>
                       </div>
-                    ) : (
+                  
                       <div
-                        onClick={() => addToLikedMovies(PopupInfo)}
-                        className="text-white w-10 h-10 border-[2px] rounded-full p-2 mr-1 backdrop-blur-[1px] hover:bg-white hover:text-black shadow-md cursor-pointer ease-linear transition-all duration-150"
+                        
+                        className="text-white w-10 h-10 border-2px rounded-full p-2 mr-1 backdrop-blur-[1px] hover:bg-white hover:text-black shadow-md cursor-pointer ease-linear transition-all duration-150"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -98,82 +96,75 @@ function MoviePopUp(props) {
                           />
                         </svg>
                       </div>
-                    )}
+                   
                   </div>
 
-                  <Fade bottom>
+                 
                     <div className="p-5 py-4 -mb-6 mt-2 sm:mb-0 sm:mt-0 sm:py-0 sm:pt-6 rounded-t">
                       <h3 className="text-3xl font-semibold text-white">
-                        {PopupInfo.title || PopupInfo.name}
+                        
                       </h3>
                       <h1 className="text-green-700 font-bold mt-2">
-                        {PopupInfo.release_date}
+                        
                       </h1>
                     </div>
-                  </Fade>
+                  
                   {/*body*/}
-                  <Fade bottom>
+                 
                     <div className="relative p-4 sm:p-6 flex-auto">
-                      <div className="bg-neutral-700 h-[0.125rem]"></div>
+                      <div className="bg-neutral-700 h-0.125rem"></div>
                       <p className="my-4 sm:my-7 text-neutral-400 text-xs md:text-lg leading-relaxed line-clamp-4 sm:line-clamp-none">
-                        {PopupInfo.overview}
+                        
                       </p>
-                      <div className="bg-neutral-700 h-[0.125rem]"></div>
+                      <div className="bg-neutral-700 h-0.125rem"></div>
                     </div>
-                  </Fade>
+                  
                   {/*footer*/}
                   <div className="sm:flex items-center justify-end p-2 rounded-b">
                     {/*More Info*/}
-                    <Fade bottom>
+                    
                       <div className="relative p-2 py-5 sm:p-6 flex-auto">
                         <h1 className="flex -mt-4 text-neutral-400 text-sm leading-relaxed">
                           Rating :
                           <div className="ml-2">
-                            {PopupInfo.vote_average && (
-                              <StarRatings
-                                rating={PopupInfo.vote_average / 2}
+                            
+                              <Rating
+                                // rating={PopupInfo.vote_average / 2}
                                 starRatedColor="red"
                                 numberOfStars={5}
                                 name="rating"
                                 starDimension="1rem"
                                 starSpacing="0.2rem"
                               />
-                            )}
+                          
                           </div>
                         </h1>
                         <h1 className="flex text-neutral-400 text-sm leading-relaxed">
                           Released on :{"  "}
                           <p className="text-white ml-2 font-medium">
-                            {PopupInfo.release_date || PopupInfo.first_air_date}
+                           
                           </p>
                         </h1>
                         <h1 className="flex text-neutral-400 text-sm leading-relaxed">
                           Language :
                           <p className="text-white ml-2 font-medium">
-                            {PopupInfo.original_language}
+                            
                           </p>
                         </h1>
 
                         <h1 className="flex text-neutral-400 text-sm leading-relaxed">
                           Genere :
-                          {PopupInfo.genre_ids &&
-                            convertGenere(PopupInfo.genre_ids).map((genere) => {
-                              return (
-                                <span className="text-white ml-2 font-medium">
-                                  {genere}
-                                </span>
-                              );
-                            })}
+                          
                         </h1>
                       </div>
-                    </Fade>
+                    
 
                     <div className="flex justify-between p-2">
-                      {props.from === "MyList" ? (
+                     
                         <button
                           className="group flex items-center justify-center border-[0.7px] border-white text-white font-medium sm:font-bold text-xs px-4 mr-4 sm:px-6 md:text-sm  py-3 rounded shadow hover:shadow-lg hover:bg-white hover:text-red-700 outline-none focus:outline-none mb-1 ease-linear transition-all duration-150"
                           type="button"
-                          onClick={() => removeFromMyList(PopupInfo)}
+                         
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -191,13 +182,13 @@ function MoviePopUp(props) {
                           </svg>
                           Remove from MyList
                         </button>
-                      ) : (
+                     
                         <>
-                          {props.from === "WatchedMovies" ? (
+                         
                             <button
                               className="group flex items-center justify-center border-[0.7px] border-white text-white font-medium sm:font-bold text-xs px-4 mr-4 sm:px-6 md:text-sm  py-3 rounded shadow hover:shadow-lg hover:bg-white hover:text-red-700 outline-none focus:outline-none mb-1 ease-linear transition-all duration-150"
                               type="button"
-                              onClick={() => removeFromWatchedMovies(PopupInfo)}
+                              
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -215,11 +206,11 @@ function MoviePopUp(props) {
                               </svg>
                               Remove from Watched List
                             </button>
-                          ) : (
+                        
                             <button
                               className="group flex items-center justify-center border-[0.7px] border-white text-white font-medium sm:font-bold text-xs px-4 mr-4 sm:px-6 md:text-sm  py-3 rounded shadow hover:shadow-lg hover:bg-white hover:text-red-700 outline-none focus:outline-none mb-1 ease-linear transition-all duration-150"
                               type="button"
-                              onClick={() => addToMyList(PopupInfo)}
+                             
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -237,14 +228,14 @@ function MoviePopUp(props) {
                               </svg>
                               Add to MyList
                             </button>
-                          )}
+                        
                         </>
-                      )}
+                   
 
                       <button
                         className="flex items-center text-red-500 background-transparent font-medium sm:font-bold uppercase px-2 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
-                        onClick={() => setShowModal(false)}
+                        
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -265,12 +256,12 @@ function MoviePopUp(props) {
                     </div>
                   </div>
                 </div>
-              </Fade>
+             
             </div>
           </div>
           <div className="opacity-40 fixed inset-0 z-40 bg-black"></div>
         </>
-      )}
+    
     </>
   );
 }

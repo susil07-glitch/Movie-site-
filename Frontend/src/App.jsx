@@ -8,6 +8,7 @@ import ProfilePage from './Pages/ProfilePage'
 import Signup from './Pages/Signup'
 import Banner from './Component/Banner/Banner'
 import Loading from './Component/Loading/Loading'
+import MoviePopUp from './Component/MoviePopUp/MoviePopUp'
 
 
 
@@ -20,9 +21,10 @@ const App = () => {
     <Route path='/Signin'element={<SignIn/>}></Route>
     <Route path='/Signup'element={<Signup/>}></Route>
     <Route path='/login'element={<Login/>}></Route>
-     <Route path='/Profile'element={<ProfilePage/>}></Route>
-      <Route path='/banner'element={<Banner/>}></Route>
-      <Route path='/loader'element={<Loading/>}></Route>
+    <Route path='/Profile'element={<ProfilePage/>}></Route>
+    <Route path='/banner'element={<Banner/>}></Route>
+    <Route path='/loader'element={<Loading/>}></Route>
+    <Route path='/moviepopup'element={<MoviePopUp/>}></Route>
 
     
     
