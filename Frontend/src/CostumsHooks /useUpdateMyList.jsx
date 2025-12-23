@@ -21,7 +21,15 @@ const useUpdateMyList = () => {
      }
 
      const AddToMyList=(movie)=>{
-        updateDoc()
+        updateDoc(doc(db ,"MyList" ,User.uid),{movies:arrayUnion(movie)})
+        .then(()=>{
+         console.log("My list update successfull ")
+         notify()
+         isMyListUpdates(true)
+        })
+        .catch(()=>{
+         
+        })
 
      }
 

@@ -1,16 +1,30 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {Swiper,SwiperSlide} from "swiper/react"
 import { Rating } from "react-simple-star-rating";
+import YouTube from 'react-youtube'
+import useUpdateMyList from '../../CostumsHooks /useUpdateMyList'
+import axios from "axios";
 
 
+import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import "./RowPostStyle.scss";
+import {Api_key,imageUrl,imageUrl2 } from "../../Geners/Geners";
+
 
 
 
 function RowPost(props) {
 
+
+   
     const [movies, setMovies] =useState([]);
+    const [urlId,setUrlId]=useState("")
+    const [showModal ,setShowModal]=useState(false)
+
+    const [moviePopupInfo, setMoviePopupInfo] = useState({});
+    const [shouldPop, setshouldPop] = useState(true);
 
 
     const customSettings = {
@@ -24,10 +38,61 @@ function RowPost(props) {
       330: { slidesPerView: 2.1, slidesPerGroup: 2 },
       0: { slidesPerView: 2, slidesPerGroup: 2 },
     },
+  }; 
+
+
+
+  const opts = {
+    width: "100%",
+    height: "auto",
+    playerVars: {
+      autoplay: 1,
+      controls: 0,
+    },
+    modestbranding: 1,
+    rel: 0,
+    autohide: 1,
+    showinfo: 0,
   };
 
 
+
+  useEffect(() => {
+    if (props.movieData != null) {
+      setMovies(props.movieData);
+    } else {
+      axios.get(props.url).then((response) => {
+        console.log(response.data.results);
+        setMovies(response.data.results);
+      });
+    }
+  }, []);
+
+
+  const handleMoviePopup = (movieInfo) => {
+    if (shouldPop) {
+      setMoviePopupInfo(movieInfo);
+      setShowModal(true);
+      axios
+        .get(`/movie/${movieInfo.id}/videos?api_key=${Api_key}&language=en-US`)
+        .then((responce) => {
+          console.log(responce.data);
+          if (responce.data.results.length !== 0) {
+            setUrlId(responce.data.results[0]);
+          } else {
+            console.log("Array Emptey");
+          }
+        });
+    }
+  };
+
+  
+
+
+
+
   return (
+
   
     <div
       className="ml-2 lg:ml-11 mb-11 lg:mb-4 RowContainer"
@@ -35,11 +100,13 @@ function RowPost(props) {
         marginTop: `${props.first ? "-8rem" : ""}` 
              }}
       >
+      
+        {movies ? (
 
   
         <>
           <h1 className="text-white pb-4 xl:pb-0 font-normal text-base sm:text-2xl md:text-4xl">
-             Title of the Movie 
+            {props.title}
           </h1> 
 
           <Swiper
@@ -91,7 +158,7 @@ function RowPost(props) {
                     
                       <div className="flex transition ml-3 ease-in-out delay-150">
                         <div
-                          onClick={() => playMovie(obj)}
+                          // onClick={() => playMovie(obj)}
                           onMouseEnter={() => setshouldPop(false)}
                           onMouseLeave={() => setshouldPop(true)}
                           className="text-white w-9 h-9 border-[2px] rounded-full p-2 mr-1 backdrop-blur-[2px] shadow-md ease-linear transition-all duration-150 hover:text-black hover:bg-white"
@@ -114,7 +181,7 @@ function RowPost(props) {
                         {props.movieData != null ? (
                           <>
                             <div
-                              onClick={() => removeFromWatchedMovies(obj)}
+                              // onClick={() => removeFromWatchedMovies(obj)}
                               onMouseEnter={() => setshouldPop(false)}
                               onMouseLeave={() => setshouldPop(true)}
                               className="text-white w-9 h-9 border-[2px] rounded-full p-2 mr-1 backdrop-blur-[1px] shadow-md ease-linear transition-all duration-150 hover:text-black hover:bg-white"
@@ -137,7 +204,7 @@ function RowPost(props) {
                         ) : (
                           <>
                             <div
-                              onClick={() => addToMyList(obj)}
+                              // onClick={() => addToMyList(obj)}
                               onMouseEnter={() => setshouldPop(false)}
                               onMouseLeave={() => setshouldPop(true)}
                               className="text-white w-9 h-9 border-[2px] rounded-full p-2 mr-1 backdrop-blur-[1px] shadow-md ease-linear transition-all duration-150 hover:text-black hover:bg-white"
@@ -160,7 +227,7 @@ function RowPost(props) {
                         )}
 
                         <div
-                          onClick={() => addToLikedMovies(obj)}
+                          // onClick={() => addToLikedMovies(obj)}
                           onMouseEnter={() => setshouldPop(false)}
                           onMouseLeave={() => setshouldPop(true)}
                           className="text-white w-9 h-9 border-[2px] rounded-full p-2 mr-1 backdrop-blur-[1px] shadow-md ease-linear transition-all duration-150 hover:text-black hover:bg-white"
@@ -212,7 +279,7 @@ function RowPost(props) {
                       </h1>
 
                       <div className="ml-4">
-                        <StarRatings
+                        <Rating
                           rating={obj.vote_average / 2}
                           starRatedColor="red"
                           numberOfStars={5}
@@ -238,6 +305,7 @@ function RowPost(props) {
           </Swiper>
 
         </>
+        ):(
       
         <>
           <div className="animate-pulse">
@@ -245,10 +313,16 @@ function RowPost(props) {
             <div className="w-91% md:w-98% ml-1 mb-14 sm:ml-0 py-16 md:py-24  bg-neutral-900 rounded-md"></div>
           </div>
         </>
+
+        )}
       
 
     
         {/* Movie Pop Up section */}
+
+
+        
+        {showModal &&(
        
           <>
             <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -277,12 +351,13 @@ function RowPost(props) {
                       </svg>
                     </button>
                    {/*Movie and tailer section  */}
-                                        
+                        {urlId.key &&(               
                       <YouTube
                         opts={opts}
                         videoId={urlId.key}
                         className="YouTubeVid"
                       />
+                        )}
                    
 
                     <div className="flex ml-4 items-center -mt-14">
@@ -375,7 +450,7 @@ function RowPost(props) {
                             Rating :
                             <div className="ml-2">
                               <Rating
-                                // rating={moviePopupInfo.vote_average / 2}
+                                rating={moviePopupInfo.vote_average / 2}
                                 starRatedColor="red"
                                 numberOfStars={5}
                                 name="rating"
@@ -398,8 +473,8 @@ function RowPost(props) {
                           </h1>
 
                           <h1 className="flex text-neutral-400 text-sm leading-relaxed">
-                            Genere :
-                            {/* {convertGenere(moviePopupInfo.genre_ids).slice(0,2).map(
+                            {/* Genere :
+                            {convertGenere(moviePopupInfo.genre_ids).slice(0,2).map(
                               (genere) => {
                                 return (
                                   <span className="text-white ml-2 font-medium">
@@ -438,7 +513,7 @@ function RowPost(props) {
                         <button
                           className="flex items-center text-red-500 background-transparent font-medium sm:font-bold uppercase px-2 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                           type="button"
-                        //   onClick={() => setShowModal(false)}
+                          onClick={() => setShowModal(false)}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -463,7 +538,11 @@ function RowPost(props) {
               </div>
             </div>
             </>
+        )}
+
+        {showModal &&(
             <div className="opacity-40 fixed inset-0 z-40 bg-black"></div>
+        )}
           
           </div>
 

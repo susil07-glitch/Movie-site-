@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import {Rating} from 'react-simple-star-rating'
 import BannerImage from '../../ImageFile/BannerImage.jpg'
 
 
 function Banner() {
+
+  const [movie,setMovie]=useState()
         
   return (
     <>
@@ -21,6 +23,7 @@ function Banner() {
                 Name: Krishna {/* {movie.title || movie.name} */}
                 </h1>
               </>
+            
               
               <div className="grid justify-center sm:justify-start">
                 <div className="animate-pulse w-72 ml-4 sm:ml-0 sm:w-96 py-5 mb-7 xl:py-7 xl:w-45rem bg-neutral-900 rounded-md"></div>
