@@ -4,6 +4,8 @@ import { Rating } from "react-simple-star-rating";
 import YouTube from 'react-youtube'
 import useUpdateMyList from '../../CostumsHooks /useUpdateMyList'
 import axios from "axios";
+import useGenernsConverter from '../../CostumsHooks /useGenernsConverter'
+
 
 
 import "swiper/css";
@@ -11,20 +13,46 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "./RowPostStyle.scss";
 import {Api_key,imageUrl,imageUrl2 } from "../../Geners/Geners";
-
-
-
+import API from "../../../http/Https";
+import {
+  trending
+} from '../../Constant/Urls'
 
 function RowPost(props) {
+
+
+ 
 
 
    
     const [movies, setMovies] =useState([]);
     const [urlId,setUrlId]=useState("")
     const [showModal ,setShowModal]=useState(false)
+    const [movieData,setMovieData]=useState([]);
 
     const [moviePopupInfo, setMoviePopupInfo] = useState({});
     const [shouldPop, setshouldPop] = useState(true);
+
+
+    const featchMovie=async()=>{
+     const  baseURL='https://api.themoviedb.org/3/'
+      const response = await axios.get(`${baseURL}`+props.url ,movieData,{
+        Headers:{
+          'Authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNTMzY2Y2NmIzMzVjMzIxN2ZkOWMyNmM5NGQ0YzhmNyIsIm5iZiI6MTc2Mjc0MzMwNy43NjE5OTk4LCJzdWIiOiI2OTExNTQwYmU5YTBlMTUyN2NkMjVhNzgiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.MHYbgJvCgmPsRGMemrO-EISSOUN_JlJCn1hsFuchrwg'
+        }
+      })
+      if (response.status===200){
+        setMovies(response.data.results)
+       
+        
+      } else{
+        console.log("Data not found ")
+      }
+    }
+
+    useEffect(()=>{
+      featchMovie();
+    },[movies])
 
 
     const customSettings = {
@@ -56,17 +84,6 @@ function RowPost(props) {
   };
 
 
-
-  useEffect(() => {
-    if (props.movieData != null) {
-      setMovies(props.movieData);
-    } else {
-      axios.get(props.url).then((response) => {
-        console.log(response.data.results);
-        setMovies(response.data.results);
-      });
-    }
-  }, []);
 
 
   const handleMoviePopup = (movieInfo) => {
@@ -123,7 +140,8 @@ function RowPost(props) {
 
             
               {movies.map((obj, index) => {
-              const converted = convertGenere(obj.genre_ids);
+                
+           
               return (
                 <SwiperSlide
                   className={props.islarge ? "large" : "bg-cover"}
@@ -289,14 +307,14 @@ function RowPost(props) {
                         />
                       </div>
 
-                      {converted &&
+                      {/* {converted &&
                         converted.map((genre) => {
                           return (
                             <span className="hidden text-white ml-4 font-thin text-xs lg:inline">
                               {genre}
                             </span>
                           );
-                        })}
+                        })} */}
                     
                   </div>
                 </SwiperSlide>

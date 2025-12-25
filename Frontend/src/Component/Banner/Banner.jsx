@@ -1,35 +1,106 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import {Rating} from 'react-simple-star-rating'
 import BannerImage from '../../ImageFile/BannerImage.jpg'
+import { useContext } from "react";
+import axios from "axios";
+import { imageUrl } from "../../Geners/Geners";
 
 
-function Banner() {
+function Banner(props) {
 
-  const [movie,setMovie]=useState()
+  
+   
+ 
+
+  const [movies, setMovies] = useState([]);
+  const [moviePopupInfo, setMoviePopupInfo] = useState({});
+  const [urlId, setUrlId] = useState("");
+  const [data ,setData ]=useState();
+
+
+  function getWindowSize() {
+    const {innerWidth:width } = window;
+    return {
+      width
+    }
+  }
+
+  const [windowSeize, setWindowSize] = useState(getWindowSize())
+
+
+ // to featch the banner page which are trending now //
+
+  const fetchBanner=async()=>{
+     const  baseURL='https://api.themoviedb.org/3/'
+      const response = await axios.get(`${baseURL}`+props.url ,data,{
+        Headers:{
+          'Authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNTMzY2Y2NmIzMzVjMzIxN2ZkOWMyNmM5NGQ0YzhmNyIsIm5iZiI6MTc2Mjc0MzMwNy43NjE5OTk4LCJzdWIiOiI2OTExNTQwYmU5YTBlMTUyN2NkMjVhNzgiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.MHYbgJvCgmPsRGMemrO-EISSOUN_JlJCn1hsFuchrwg'
+        }
+      })
+      if (response.status===200){
+        setMovies(
+          response.data.results
+          
+        )
+        console.log(response.data.results)
+        
+      } else{
+        console.log("Data not found ")
+      }
+    }
+  
+
+
+// to run the api calling function //
+
+  
+  useEffect(() => {
+    const isMounted =true;
+
+   
+      fetchBanner();
+      return () => {
+    isMounted = false ;
+      }
+    const handleResize = () => setWindowSize(getWindowSize());
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+
+
+
+  
+  
         
   return (
     <>
       <div
         style={{
-          backgroundImage: `linear-gradient(90deg, hsl(0deg 0% 7% / 91%) 0%, hsl(0deg 0% 0% / 0%) 35%, hsl(220deg 26% 44% / 0%) 100%), url(${BannerImage})`
+          backgroundImage: `linear-gradient(90deg, hsl(0deg 0% 7% / 91%) 0%, hsl(0deg 0% 0% / 0%) 35%, hsl(220deg 26% 44% / 0%) 100%), url(${
+            movies
+              ? imageUrl + movies.backdrop_path
+              : ""
+          })`
         }}
         className="h-[50rem] md:h-[55rem] 3xl:h-[63rem] bg-cover bg-center object-contain grid items-center"
       >
         <div className="ml-2  mr-2 sm:mr-0 sm:ml-12 mt-[75%] sm:mt-52">
          
-            {/* {movie.title || movie.name ? ( */}
+            {movies.title || movies.name ? (
               <>
                 <h1 className="text-white text-3xl font-semibold text-center mb-5 py-2 sm:text-left sm:text-5xl sm:border-l-8 pl-4 border-red-700 md:text-6xl lg:w-2/3 xl:w-1/2 sm:font-bold drop-shadow-lg">
-                Name: Krishna {/* {movie.title || movie.name} */}
+                {movies.title || movies.name}
                 </h1>
               </>
             
-              
+            ):(
               <div className="grid justify-center sm:justify-start">
                 <div className="animate-pulse w-72 ml-4 sm:ml-0 sm:w-96 py-5 mb-7 xl:py-7 xl:w-45rem bg-neutral-900 rounded-md"></div>
               </div>
             
-            
+            )}
             
             <div className="flex">
               <div className=" hidden sm:flex justify-center sm:justify-start ml-2">

@@ -6,8 +6,7 @@ export const imageUrl = "https://image.tmdb.org/t/p/w500";
 
 
 
- export const GenersList={
-  "genres": [
+ export const GenersList=[
     {
       "id": 28,
       "name": "Action"
@@ -84,5 +83,5 @@ export const imageUrl = "https://image.tmdb.org/t/p/w500";
       "id": 37,
       "name": "Western"
     }
-  ]
-}
+
+ ]
