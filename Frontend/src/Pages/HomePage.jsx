@@ -11,7 +11,7 @@ import { trending ,
 const HomePage = () => {
   const [WatchedMovie,setWatchedMovie ]=useState([])
   return (
-    <div>
+    <div className='bg-black'>
       <NavbarWithoutUser></NavbarWithoutUser>
       <Banner url={trending}></Banner>
       <div className='w-[99%] ml-1'>

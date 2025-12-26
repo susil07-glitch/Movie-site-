@@ -45,7 +45,9 @@ function Banner(props) {
         console.log(response.data.results)
         
       } else{
+
         console.log("Data not found ")
+
       }
     }
   
@@ -55,12 +57,15 @@ function Banner(props) {
 
   
   useEffect(() => {
-    const isMounted =true;
+    let  isMounted =true;
 
    
       fetchBanner();
+
       return () => {
+
     isMounted = false ;
+    
       }
     const handleResize = () => setWindowSize(getWindowSize());
     window.addEventListener("resize", handleResize);
