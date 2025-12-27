@@ -18,6 +18,8 @@ import {
   trending
 } from '../../Constant/Urls'
 
+import {Navigation,Pagination} from 'swiper/modules'
+
 function RowPost(props) {
 
 
@@ -34,6 +36,9 @@ function RowPost(props) {
     const [shouldPop, setshouldPop] = useState(true);
 
 
+
+    // to featch the movie according to url //
+
     const featchMovie=async()=>{
      const  baseURL='https://api.themoviedb.org/3/'
       const response = await axios.get(`${baseURL}`+props.url ,movieData,{
@@ -42,6 +47,7 @@ function RowPost(props) {
         }
       })
       if (response.status===200){
+
         setMovies(response.data.results)
        
         
@@ -50,9 +56,20 @@ function RowPost(props) {
       }
     }
 
+
+    // rendering the api call //
+
+
     useEffect(()=>{
-      featchMovie();
-    },[movies])
+
+      
+      featchMovie()
+
+
+    },[])
+
+
+     // custom slide changing show //
 
 
     const customSettings = {
@@ -70,6 +87,8 @@ function RowPost(props) {
 
 
 
+
+
   const opts = {
     width: "100%",
     height: "auto",
@@ -84,6 +103,8 @@ function RowPost(props) {
   };
 
 
+// Handle movie popup and playing movie when clicking the play button //
+// calling video api //
 
 
   const handleMoviePopup = (movieInfo) => {
@@ -91,9 +112,9 @@ function RowPost(props) {
       setMoviePopupInfo(movieInfo);
       setShowModal(true);
       axios
-        .get(`/movie/${movieInfo.id}/videos?api_key=${Api_key}&language=en-US`)
+        .get(`movie/${movieInfo.id}/videos?api_key=${Api_key}&language=en-US`)
         .then((responce) => {
-          console.log(responce.data);
+          console.log(responce.data.results);
           if (responce.data.results.length !== 0) {
             setUrlId(responce.data.results[0]);
           } else {
@@ -122,19 +143,19 @@ function RowPost(props) {
 
   
         <>
-          <h1 className="text-white pb-4 xl:pb-0 font-normal text-base sm:text-2xl md:text-4xl">
+          <h1 className="text-white pb-4 xl:pb-0 font-bold font text-base sm:text-2xl md:text-4xl">
             {props.title}
           </h1> 
 
           <Swiper
           {...customSettings}
-            // modules={[Navigation, Pagination]}
+            modules={[Navigation, Pagination]}
             spaceBetween={8}
             slidesPerView={6.1}
             navigation
             pagination={{ clickable: true }}
             onSlideChange={() => console.log("slide change")}
-            onSwiper={(swiper) => console.log(swiper)}
+            // onSwiper={(swiper) => console.log(swiper)}
             className="SwiperStyle"
           >
 
@@ -440,12 +461,15 @@ function RowPost(props) {
                     
                       <div className="p-5 py-4 -mb-6 mt-2 sm:mb-0 sm:mt-0 sm:py-2 sm:pt-6 rounded-t">
                         <h3 className="text-3xl font-semibold text-white">
-                         Movie popup title 
+                       
                         </h3>
+                        <>
                         <h1 className="text-green-700 font-bold mt-2">
-                          Movie release date 
+                          {movies.title || movies.name}
 
                         </h1>
+                        </>
+                      
                       </div>
                     
                     {/*body*/}
@@ -480,7 +504,7 @@ function RowPost(props) {
                           <h1 className="flex text-neutral-400 text-sm leading-relaxed">
                             Released on :{"  "}
                             <p className="text-white ml-2 font-medium">
-                             Realease date 2020/03/03
+                             {obj.release_date}
                             </p>
                           </h1>
                           <h1 className="flex text-neutral-400 text-sm leading-relaxed">

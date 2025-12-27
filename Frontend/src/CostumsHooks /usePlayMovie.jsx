@@ -6,9 +6,9 @@ function usePlayMovie() {
   const { addToWatchedMovies } = useUpdateWatchedMovies();
   const navigate = useNavigate();
 
-  const playMovie = (movie, from) => {
-    addToWatchedMovies(movie);
-    navigate(`/play/${movie.id}`, { replace: true, state: { From: from } });
+  const playMovie = (movies, from) => {
+    addToWatchedMovies(movies);
+    navigate(`/play/${movies.id}`, { replace: true, state: { From: from } });
   };
 
   return { playMovie };

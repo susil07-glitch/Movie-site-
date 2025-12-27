@@ -3,7 +3,7 @@ import {Rating} from 'react-simple-star-rating'
 import BannerImage from '../../ImageFile/BannerImage.jpg'
 import { useContext } from "react";
 import axios from "axios";
-import { imageUrl } from "../../Geners/Geners";
+import { imageUrl ,imageUrl2} from "../../Geners/Geners";
 
 
 function Banner(props) {
@@ -12,10 +12,10 @@ function Banner(props) {
    
  
 
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState({});
   const [moviePopupInfo, setMoviePopupInfo] = useState({});
   const [urlId, setUrlId] = useState("");
-  const [data ,setData ]=useState();
+  const [showModal  ,setshowModal]=useState();
 
 
   function getWindowSize() {
@@ -32,17 +32,19 @@ function Banner(props) {
 
   const fetchBanner=async()=>{
      const  baseURL='https://api.themoviedb.org/3/'
-      const response = await axios.get(`${baseURL}`+props.url ,data,{
-        Headers:{
+      const response = await axios.get(`${baseURL}`+props.url,{
+        headers:{
           'Authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNTMzY2Y2NmIzMzVjMzIxN2ZkOWMyNmM5NGQ0YzhmNyIsIm5iZiI6MTc2Mjc0MzMwNy43NjE5OTk4LCJzdWIiOiI2OTExNTQwYmU5YTBlMTUyN2NkMjVhNzgiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.MHYbgJvCgmPsRGMemrO-EISSOUN_JlJCn1hsFuchrwg'
         }
       })
       if (response.status===200){
-        setMovies(
-          response.data.results
-          
-        )
-        console.log(response.data.results)
+       
+        const randomMovie =
+              response.data.results[
+                  Math.floor(Math.random() * response.data.results.length)
+      ];
+
+      setMovies(randomMovie);
         
       } else{
 
@@ -57,20 +59,17 @@ function Banner(props) {
 
   
   useEffect(() => {
-    let  isMounted =true;
+    
 
    
       fetchBanner();
 
-      return () => {
-
-    isMounted = false ;
-    
-      }
     const handleResize = () => setWindowSize(getWindowSize());
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
+
+
   }, []);
 
 
@@ -85,7 +84,7 @@ function Banner(props) {
         style={{
           backgroundImage: `linear-gradient(90deg, hsl(0deg 0% 7% / 91%) 0%, hsl(0deg 0% 0% / 0%) 35%, hsl(220deg 26% 44% / 0%) 100%), url(${
             movies
-              ? imageUrl + movies.backdrop_path
+              ? imageUrl2+movies.backdrop_path
               : ""
           })`
         }}
@@ -101,6 +100,7 @@ function Banner(props) {
               </>
             
             ):(
+
               <div className="grid justify-center sm:justify-start">
                 <div className="animate-pulse w-72 ml-4 sm:ml-0 sm:w-96 py-5 mb-7 xl:py-7 xl:w-45rem bg-neutral-900 rounded-md"></div>
               </div>
@@ -113,8 +113,8 @@ function Banner(props) {
                   <h1 className="flex text-white text-xl drop-shadow-lg 2xl:text-lg">
                     <div className="-mt-1 flex flex-row">
                       <Rating
-                        // rating={movie.vote_average / 2}
-                        starRatedColor="red"
+                        rating={movies.vote_average / 2}
+                        RatedColor="red"
                         numberOfStars={5}
                         name="rating"
                         starDimension="1.1rem"
@@ -125,42 +125,44 @@ function Banner(props) {
                 
               </div>
               <div className="ml-2 hidden sm:flex justify-center sm:justify-start">
-               
+               {movies.release_date || movies.first_air_date ?(
                   <h1 className="flex text-white text-base font-bold drop-shadow-lg">
-                    Release Date: 2024/05/06
+                    {movies.release_date || movies.first_air_date}
                   </h1>
-               
+               ):null}
               </div>
-             
+                 {movies.id && (
                 <h1 className="hidden sm:flex text-white px-2 bg-[#1e1e1e89] border-2 border-stone-600 rounded ml-2">
                   HD
                 </h1>
+                 )}
              
             </div>
 
             <div className="mt-3 mb-4">
+              {movies.overview ?(
               
                 <>
                   <h1 className="text-white text-xl drop-shadow-xl  text-center line-clamp-2 sm:line-clamp-3 sm:text-left w-full md:w-4/5 lg:w-8/12/2 lg:text-xl xl:w-5/12 2xl:text-2xl">
-                    
+                    {movies.overview}
                   </h1>
                 </>
-               
+              ):(
                 <>
                   <div className="grid justify-center md:justify-start">
-                    <div className="animate-pulse text-amber-50 w-80 sm:w-40rem md:w-45rem py-1 mb-3 xl:w-70rem xl:py-2 bg-neutral-900 rounded-md">This the description of the movie </div>
-                    <div className="animate-pulse text-amber-50  w-80 sm:w-40rem md:w-45rem py-1 mb-3 xl:w-70rem xl:py-2 bg-neutral-900 rounded-md">This the description of the movie</div>
-                    <div className="animate-pulse text-amber-50  w-80 sm:w-40rem md:w-45rem py-1 mb-7 xl:w-70rem xl:py-2 bg-neutral-900 rounded-md">This the description of the movie</div>
+                    <div className="animate-pulse text-amber-50 w-80 sm:w-40rem md:w-45rem py-1 mb-3 xl:w-70rem xl:py-2 bg-neutral-900 rounded-md"></div>
+                    <div className="animate-pulse text-amber-50  w-80 sm:w-40rem md:w-45rem py-1 mb-3 xl:w-70rem xl:py-2 bg-neutral-900 rounded-md"></div>
+                    <div className="animate-pulse text-amber-50  w-80 sm:w-40rem md:w-45rem py-1 mb-7 xl:w-70rem xl:py-2 bg-neutral-900 rounded-md"></div>
                   </div>
                 </>
-              
+              )}
             </div>
 
             <div className="flex justify-center sm:justify-start">
-              
+              {movies.id  ? (
                 <>
                   <button
-                    // onClick={() => playMovie(movie)}
+                    onClick={() => playMovie(movies)}
                     className="bg-red-800 hover:bg-red-900 transition duration-500 ease-in-out shadow-2xl flex items-center mb-3 mr-3 text-base sm:text-xl font-semibold text-white py-2 sm:py-2 px-10 sm:px-14 rounded-md"
                   >
                     <svg
@@ -200,10 +202,50 @@ function Banner(props) {
                     More Info
                   </button>
                 </>
-              
-               
-            
-            </div>
+              ) :(
+                <>
+                  <button className="animate-pulse bg-neutral-900 transition duration-500 ease-in-out shadow-2xl flex items-center mb-3 mr-3 text-base sm:text-xl font-semibold text-neutral-500 py-2 sm:py-2 px-10 sm:px-14 rounded-md">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-5 items-center mr-2"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    Play
+                  </button>
+                  <button className="animate-pulse bg-neutral-900 flex items-center shadow-2xl mb-3 text-base sm:text-xl font-semibold text-neutral-500 transition duration-500 ease-in-out py-2 px-8 rounded-md">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 items-center mr-2"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    More Info
+                  </button>
+                </>
+              )}
+              </div>
       
         </div>
         <div
@@ -215,7 +257,7 @@ function Banner(props) {
         ></div>
       </div>
 
-      {/* {showModal ? <MoviePopUp data1={moviePopupInfo} data2={urlId} /> : null} */}
+      {showModal ? <MoviePopUp data1={moviePopupInfo} data2={urlId} /> : null}
     </>
   );
 }
