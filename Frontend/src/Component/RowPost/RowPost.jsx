@@ -107,12 +107,11 @@ function RowPost(props) {
 // calling video api //
 
 
-  const handleMoviePopup = (movieInfo) => {
+  const handleMoviePopup = async(obj) => {
     if (shouldPop) {
-      setMoviePopupInfo(movieInfo);
+      setMoviePopupInfo(obj);
       setShowModal(true);
-      axios
-        .get(`movie/${movieInfo.id}/videos?api_key=${Api_key}&language=en-US`)
+     const response =await axios.get(`movie/${obj.id}/videos?api_key=${Api_key}&language=en-US`)
         .then((responce) => {
           console.log(responce.data.results);
           if (responce.data.results.length !== 0) {
@@ -155,10 +154,10 @@ function RowPost(props) {
             navigation
             pagination={{ clickable: true }}
             onSlideChange={() => console.log("slide change")}
-            // onSwiper={(swiper) => console.log(swiper)}
+            onSwiper={(swiper) => console.log(swiper)}
             className="SwiperStyle"
           >
-
+¸
             
               {movies.map((obj, index) => {
                 
@@ -465,7 +464,7 @@ function RowPost(props) {
                         </h3>
                         <>
                         <h1 className="text-green-700 font-bold mt-2">
-                          {movies.title || movies.name}
+                          {obj.title || obj.name}
 
                         </h1>
                         </>
