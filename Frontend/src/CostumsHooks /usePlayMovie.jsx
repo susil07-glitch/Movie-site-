@@ -1,13 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import useUpdateWatchedMovies from "./useUpdateWatchedMovies";
+
 
 function usePlayMovie() {
-  const { addToWatchedMovies } = useUpdateWatchedMovies();
+  // const { addToWatchedMovies } = useUpdateWatchedMovies();
   const navigate = useNavigate();
 
   const playMovie = (movies, from) => {
-    addToWatchedMovies(movies);
+    // addToWatchedMovies(movies);
     navigate(`/play/${movies.id}`, { replace: true, state: { From: from } });
   };
 

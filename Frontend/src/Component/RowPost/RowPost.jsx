@@ -5,6 +5,7 @@ import YouTube from 'react-youtube'
 import useUpdateMyList from '../../CostumsHooks /useUpdateMyList'
 import axios from "axios";
 import useGenernsConverter from '../../CostumsHooks /useGenernsConverter'
+import usePlayMovie from "../../CostumsHooks /usePlayMovie";
 
 
 
@@ -26,7 +27,8 @@ function RowPost(props) {
  
 
 
-   
+    const {convertGenere}=useGenernsConverter();
+    const {playMovie}=usePlayMovie();
     const [movies, setMovies] =useState([]);
     const [urlId,setUrlId]=useState("")
     const [showModal ,setShowModal]=useState(false)
@@ -154,12 +156,14 @@ function RowPost(props) {
             navigation
             pagination={{ clickable: true }}
             onSlideChange={() => console.log("slide change")}
-            onSwiper={(swiper) => console.log(swiper)}
             className="SwiperStyle"
           >
 ¸
             
               {movies.map((obj, index) => {
+
+
+                const converted=convertGenere(obj.genre_ids);
                 
            
               return (
@@ -327,14 +331,14 @@ function RowPost(props) {
                         />
                       </div>
 
-                      {/* {converted &&
+                      {converted &&
                         converted.map((genre) => {
                           return (
                             <span className="hidden text-white ml-4 font-thin text-xs lg:inline">
                               {genre}
                             </span>
                           );
-                        })} */}
+                        })} 
                     
                   </div>
                 </SwiperSlide>
@@ -389,20 +393,24 @@ function RowPost(props) {
                       </svg>
                     </button>
                    {/*Movie and tailer section  */}
-                        {urlId.key &&(               
+                       {urlId ? (
                       <YouTube
                         opts={opts}
                         videoId={urlId.key}
                         className="YouTubeVid"
                       />
-                        )}
+                    ) : (
+                      <img src={`${imageUrl + moviePopupInfo.backdrop_path}`} />
+                    )}
                    
 
                     <div className="flex ml-4 items-center -mt-14">
                       <button
                         className="flex items-center justify-center bg-red-800 text-white active:bg-red-800 font-medium sm:font-bold uppercase text-xs px-4 sm:px-6 md:text-sm  py-2 rounded shadow hover:shadow-lg cursor-pointer outline-none focus:outline-none mr-3 mb-1 ease-linear transition-all duration-150"
                         type="button"
-                        
+                        onClick={()=>{
+                          playMovie(moviePopupInfo);
+                        }}
                         
                       >
                         <svg
@@ -460,12 +468,11 @@ function RowPost(props) {
                     
                       <div className="p-5 py-4 -mb-6 mt-2 sm:mb-0 sm:mt-0 sm:py-2 sm:pt-6 rounded-t">
                         <h3 className="text-3xl font-semibold text-white">
-                       
+                       {moviePopupInfo.title || moviePopupInfo.name}
                         </h3>
                         <>
                         <h1 className="text-green-700 font-bold mt-2">
-                          {obj.title || obj.name}
-
+                          {moviePopupInfo.release_date}
                         </h1>
                         </>
                       
@@ -476,7 +483,7 @@ function RowPost(props) {
                       <div className="relative p-4 sm:p-6 flex-auto">
                         <div className="bg-neutral-700 h-[0.15rem]"></div>
                         <p className="my-4 sm:my-7 text-neutral-400 text-xs md:text-lg leading-relaxed line-clamp-4 sm:line-clamp-none">
-                         Movie overview 
+                         {moviePopupInfo.overview}
 
                         </p>
                         <div className="bg-neutral-700 h-[0.15rem]"></div>
@@ -503,18 +510,18 @@ function RowPost(props) {
                           <h1 className="flex text-neutral-400 text-sm leading-relaxed">
                             Released on :{"  "}
                             <p className="text-white ml-2 font-medium">
-                             {obj.release_date}
+                             {moviePopupInfo.release_date}
                             </p>
                           </h1>
                           <h1 className="flex text-neutral-400 text-sm leading-relaxed">
                             Language :
                             <p className="text-white ml-2 font-medium">
-                              Origional languaue :maithili ,english 
+                              {moviePopupInfo.original_language}
                             </p>
                           </h1>
 
                           <h1 className="flex text-neutral-400 text-sm leading-relaxed">
-                            {/* Genere :
+                            Genere :
                             {convertGenere(moviePopupInfo.genre_ids).slice(0,2).map(
                               (genere) => {
                                 return (
@@ -522,7 +529,8 @@ function RowPost(props) {
                                     {genere}
                                   </span>
                                 );
-                              } */}
+                             }
+                            )} 
                            
                           </h1>
                         </div>

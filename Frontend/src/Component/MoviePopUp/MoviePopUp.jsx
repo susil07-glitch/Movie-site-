@@ -1,6 +1,9 @@
 import React, { useContext } from "react";
 import {Rating} from "react-simple-star-rating"
 import { PopUpContex } from "../../Contex/MoviePopUpContex";
+
+
+
 function MoviePopUp(props) {
 
   const {showModal ,setShowModal}=useContext(PopUpContex)

@@ -10,6 +10,7 @@ import Banner from './Component/Banner/Banner'
 import Loading from './Component/Loading/Loading'
 import MoviePopUp from './Component/MoviePopUp/MoviePopUp'
 import RowPost from './Component/RowPost/RowPost'
+import Play from '../../Frontend/src/Pages/Play'
 
 
 
@@ -27,6 +28,7 @@ const App = () => {
     <Route path='/loader'element={<Loading/>}></Route>
     <Route path='/moviepopup'element={<MoviePopUp/>}></Route>
     <Route path='/rowpost'element={<RowPost/>}></Route>
+     <Route path='/play'element={<Play/>}></Route>
 
     
     
