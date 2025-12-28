@@ -1,46 +1,47 @@
 
-import react from 'react'
+import React from "react";
 import { useContext, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { AuthContext } from "../Contex/UserContex";
 
-function useUpdateWatchedMovies() {
+function useUpdateLikedMovies() {
   const { User } = useContext(AuthContext);
   const [Error, setError] = useState(false);
 
-  const notifySuccess = (msg) => toast.success(msg);
+  const notifyAdd = () => toast.success("Movie added to Liked List");
+  const notifyRemove = () => toast.success("Movie removed from Liked List");
   const notifyError = (msg) => toast.error(msg);
 
-  const addToWatchedMovies = async (movie) => {
+  const addToLikedMovies = async (movie) => {
     try {
-      await axios.post("/api/watched-movies/add", {
+      await axios.post("/api/liked-movies/add", {
         userId: User._id || User.uid,
         movie,
       });
 
-      notifySuccess("Movie added to Watched List");
+      notifyAdd();
     } catch (error) {
       notifyError(error.response?.data?.message || error.message);
       setError(true);
     }
   };
 
-  const removeFromWatchedMovies = async (movie) => {
+  const removeFromLikedMovies = async (movie) => {
     try {
-      await axios.post("/api/watched-movies/remove", {
+      await axios.post("/api/liked-movies/remove", {
         userId: User._id || User.uid,
         movie,
       });
 
-      notifySuccess("Movie removed from Watched List");
+      notifyRemove();
     } catch (error) {
       notifyError(error.response?.data?.message || error.message);
       setError(true);
     }
   };
 
-  const removePopupMessage = (
+  const LikedMoviePopupMessage = (
     <Toaster
       toastOptions={{
         style: {
@@ -52,7 +53,7 @@ function useUpdateWatchedMovies() {
     />
   );
 
-  return { addToWatchedMovies, removeFromWatchedMovies, removePopupMessage };
+  return { addToLikedMovies, removeFromLikedMovies, LikedMoviePopupMessage };
 }
 
-export default useUpdateWatchedMovies;
+export default useUpdateLikedMovies;

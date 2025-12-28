@@ -6,6 +6,7 @@ function NavbarWithoutUser() {
   const [show, handleShow] = useState(false);
   const transitionNavBar = () => {
     if (window.scrollY > 100) {
+
       handleShow(true);
     } else {
       handleShow(false);
@@ -26,7 +27,7 @@ function NavbarWithoutUser() {
           show && "bg-black transition duration-500 ease-in-out"
         }`}
       >
-        <div className="w-9/12 md:w-11/12">
+        <div className="w-9/12 md:w-11/12 text-amber-900">
          Cinema घर
         </div>
 

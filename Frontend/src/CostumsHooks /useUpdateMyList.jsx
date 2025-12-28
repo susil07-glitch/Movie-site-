@@ -1,43 +1,62 @@
-import React, { useContext, useState } from 'react'
-import { AuthContext } from '../Contex/UserContex'
-import toast from 'react-hot-toast'
+import React from "react";
+import { useContext, useState } from "react";
 
-const useUpdateMyList = () => {
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+import { AuthContext } from "../Contex/UserContex";
 
-     const {User}=useContext(AuthContext)
+function useUpdateMylist() {
+  const { User } = useContext(AuthContext);
+  const [isMyListUpdates, setisMyListUpdates] = useState(false);
 
-     const [isMyListUpdates ,setIsMyListUpdates]=useState(fales)
+  const notifySuccess = (msg) => toast.success(msg);
+  const notifyError = (msg) => toast.error(msg);
 
-     // tostes function //
+  const addToMyList = async (movie) => {
+    try {
+      await axios.post("/api/mylist/add", {
+        userId: User._id || User.uid,
+        movie,
+      });
 
-     function notify(){
-        toast.success("Movies added to my list")
+      notifySuccess("Movie added to MyList");
+      setisMyListUpdates(true);
+    } catch (error) {
+      notifyError(error.response?.data?.message || error.message);
+    }
+  };
 
-     }
+  const removeFromMyList = async (movie) => {
+    try {
+      await axios.post("/api/mylist/remove", {
+        userId: User._id || User.uid,
+        movie,
+      });
 
-     function alertError(){
-        toast.error(message)
+      notifySuccess("Movie removed from MyList");
+      setisMyListUpdates(true);
+    } catch (error) {
+      notifyError(error.response?.data?.message || error.message);
+    }
+  };
 
-     }
 
-     const AddToMyList=(movie)=>{
-        updateDoc(doc(db ,"MyList" ,User.uid),{movies:arrayUnion(movie)})
-        .then(()=>{
-         console.log("My list update successfull ")
-         notify()
-         isMyListUpdates(true)
-        })
-        .catch(()=>{
-         
-        })
 
-     }
+  const PopupMessage = (
 
-  return (
-    <div>
-      
-    </div>
-  )
+   
+    <Toaster
+      toastOptions={{
+        style: {
+          padding: "1.5rem",
+          backgroundColor: "#f4fff4",
+          borderLeft: "6px solid lightgreen",
+        },
+      }}
+    />
+  );
+
+  return { addToMyList, removeFromMyList, PopupMessage, isMyListUpdates };
 }
 
-export default useUpdateMyList
+export default useUpdateMylist;

@@ -1,110 +1,117 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, useLocation, data } from "react-router-dom";
-import Footter from '../../src/Component/Footer/Footter'
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { Rating } from "react-simple-star-rating";
 import axios from "axios";
+import HomePage from "./HomePage";
+
+import { Api_key, imageUrl, imageUrl2 } from "../Geners/Geners";
+
+import useUpdateMylist from "../CostumsHooks /useUpdateMyList";
+import useUpdateLikedMovies from "../CostumsHooks /useUpdateLikedMovie";
+import useUpdateWatchedMovies from "../CostumsHooks /useUpdateWatchedMovies";
+import usePlayMovie from "../CostumsHooks /usePlayMovie";
+
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import usePlayMovie from "../CostumsHooks /usePlayMovie";
-import { Api_key } from "../Geners/Geners";
+import Navbar from "../Component/Navbar/Navbar";
 
 function Play() {
-  const [urlId, setUrlId] = useState("");
-  const [movieDetails, setMovieDetails] = useState({});
-  const [isFromMyList, setIsFromMyList] = useState(false);
-  const [isFromLikedMovies, setIsFromLikedMovies] = useState(false);
-  const [isFromWatchedMovies, setIsFromWatchedMovies] = useState(false);
-  const [moreTrailerVideos, setMoreTrailerVideos] = useState([]);
-  const [similarMovies, setSimilarMovies] = useState([]);
-  const { playMovie } = usePlayMovie();
+
 
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const [showModal,setShowModal]=useState(true);
+  const [urlId, setUrlId] = useState(null);
+  const [movieDetails, setMovieDetails] = useState({});
+  const [moreTrailerVideos, setMoreTrailerVideos] = useState([]);
+  const [similarMovies, setSimilarMovies] = useState([]);
 
+  const [isFromMyList, setIsFromMyList] = useState(false);
+  const [isFromLikedMovies, setIsFromLikedMovies] = useState(false);
+  const [isFromWatchedMovies, setIsFromWatchedMovies] = useState(false);
 
+  const { addToMyList, removeFromMyList, PopupMessage } = useUpdateMylist();
+  const { addToLikedMovies, removeFromLikedMovies, LikedMoviePopupMessage } =
+    useUpdateLikedMovies();
+  const { removeFromWatchedMovies, removePopupMessage } =
+    useUpdateWatchedMovies();
+  const { playMovie } = usePlayMovie();
 
+  /*------------- base url to fetch movie data ---------------*/
 
-  // handle play function //
+ const  baseURL='https://api.themoviedb.org/3/'
 
-  const handlePlayFunction =async()=>{
-
-    const responce = await axios .get(`/movie/${id}/videos?api_key=${Api_key}&language=en-US`,data)
-      
-        if (responce.data.results.length !== 0) {
-          setUrlId(responce.data.results[0]);
-          setMoreTrailerVideos(responce.data.results);
-        } else {
-          console.log("Array Emptey");
-        }
-
-
-
-    if (urlId === "") {
-      
-      const responce= await axios.get(`/tv/${id}/videos?api_key=${Api_key}&language=en-US`)
-       
-          if (responce.data.results.length !== 0) {
-
-
-            console.log(responce.data.results[0], "This is using find ");
-            setUrlId(responce.data.results[0]);
-            setMoreTrailerVideos(responce.data.results);
-            console.log(moreTrailerVideos);
-
-
-          } else {
-            console.log("Array Emptey");
-          }
-        
-    }else{
-     const responce= await axios.get(`/movie/${id}?api_key=${Api_key}&language=en-US`)
-    
-        console.log(responce.data, "Movie deatils");
-        setMovieDetails(responce.data);
-        console.log(responce.data.genres[0]);
-
-      const res=await axios.get(
-            `movie/${id}/recommendations?api_key=${Api_key}&language=en-US&page=1`
-          )
-          .then((res) => {
-            console.log(
-              res.data.results.slice(0, 8),
-              "ksdjfk ahdsfjksadhfjsdahf"
-            );
-            setSimilarMovies(res.data.results.slice(0, 8));
-          })
-
-      }
-
-
-
+  /* ---------------- FROM WHERE PAGE OPENED ---------------- */
 
 
   useEffect(() => {
-    if (location.state.From === "MyList") {
-      setIsFromMyList(true);
-    }
-    if (location.state.From === "LikedMovies") {
-      setIsFromLikedMovies(true);
-    }
-    if (location.state.From === "WatchedMovies") {
-      setIsFromWatchedMovies(true);
-    }
 
-    handlePlayFunction();
+    if (location.state?.From === "MyList") setIsFromMyList(true);
+    if (location.state?.From === "LikedMovies") setIsFromLikedMovies(true);
+    if (location.state?.From === "WatchedMovies") setIsFromWatchedMovies(true);
 
 
-     
-  }, []);
+  }, [location.state]);
+
+
+
+  /* ---------------- FETCH MOVIE DATA ---------------- */
+  useEffect(() => {
+    const fetchMovie = async () => {
+      try {
+        const videoRes = await axios.get(
+          `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${Api_key}language=en-US`,{
+
+            headers:{
+              'Authorization': "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNTMzY2Y2NmIzMzVjMzIxN2ZkOWMyNmM5NGQ0YzhmNyIsIm5iZiI6MTc2Mjc0MzMwNy43NjE5OTk4LCJzdWIiOiI2OTExNTQwYmU5YTBlMTUyN2NkMjVhNzgiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.MHYbgJvCgmPsRGMemrO-EISSOUN_JlJCn1hsFuchrwg"
+            }
+
+          }
+        );
+
+        if (videoRes.data.results.length > 0) {
+          setUrlId(videoRes.data.results[0]);
+          setMoreTrailerVideos(videoRes.data.results);
+        }
+
+        const movieRes = await axios.get(
+          `https://api.themoviedb.org/3/movie/${id}?api_key=${Api_key}&language=en-US`,{
+            headers:{
+              'Authorization': "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNTMzY2Y2NmIzMzVjMzIxN2ZkOWMyNmM5NGQ0YzhmNyIsIm5iZiI6MTc2Mjc0MzMwNy43NjE5OTk4LCJzdWIiOiI2OTExNTQwYmU5YTBlMTUyN2NkMjVhNzgiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.MHYbgJvCgmPsRGMemrO-EISSOUN_JlJCn1hsFuchrwg"
+            }
+
+          }
+        );
+        setMovieDetails(movieRes.data);
+
+        const similarRes = await axios.get(
+          `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${Api_key}&language=en-US&page=1`,{
+            headers:{
+              'Authorization': "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNTMzY2Y2NmIzMzVjMzIxN2ZkOWMyNmM5NGQ0YzhmNyIsIm5iZiI6MTc2Mjc0MzMwNy43NjE5OTk4LCJzdWIiOiI2OTExNTQwYmU5YTBlMTUyN2NkMjVhNzgiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.MHYbgJvCgmPsRGMemrO-EISSOUN_JlJCn1hsFuchrwg"
+            }
+          }
+        );
+        setSimilarMovies(similarRes.data.results.slice(0, 8));
+
+        console.log(similarRes.data.results)
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+
+    fetchMovie();
+
+
+  }, [id]);
 
   return (
+    <div className='bg-black'>
+      <Navbar></Navbar>
 
-
-
-    <div>
-        
-        {PopupMessage}
+       {PopupMessage}
 
       <div className="mt-12 h-[31vh] sm:h-[42vh] md:h-[45vh] lg:h-[55vh] lg:mt-0 xl:h-[98vh]">
         {urlId ? (
@@ -117,9 +124,39 @@ function Play() {
             allowFullScreen
           ></iframe>
         ) : (
+
           <img src={`${imageUrl + movieDetails.backdrop_path}`} />
+
         )}
+       
+                    <button
+                          className="flex items-center hover:cursor-pointer text-red-500 background-transparent font-medium sm:font-bold uppercase px-2 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={() => 
+                           navigate('/home')
+                          }
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-6 h-6 mr-1"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                       
+                        </button>
+        
+
       </div>
+
+
 
       {movieDetails.id ? (
         <>
@@ -174,7 +211,7 @@ function Play() {
                 <div className="hidden lg:flex lg:mt-3">
                   {isFromMyList ? (
                     <button
-                    //   onClick={() => removeFromMyList(movieDetails)}
+                      onClick={() => removeFromMyList(movieDetails)}
                       className="group flex items-center border-[0.7px] border-white text-white font-medium sm:font-bold text-xs sm:text-lg sd:text-xl py-3 lg:px-10 rounded shadow hover:shadow-lg hover:bg-white hover:border-white hover:text-red-700 outline-none focus:outline-none mt-4 mb-3 ease-linear transition-all duration-150"
                     >
                       <svg
@@ -331,8 +368,9 @@ function Play() {
                     </svg>
                     Add To My List
                   </button>
+
                   <button
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate("/home")}
                     className="group flex items-center justify-center w-full bg-red-600 border-white text-white font-medium sm:font-bold text-xs sm:mt-4 sm:px-12 sm:text-lg md:px-16 md:text-xl py-3 rounded shadow hover:shadow-lg hover:bg-white hover:border-white hover:text-red-700 outline-none focus:outline-none mb-3 ease-linear transition-all duration-150"
                   >
                     <svg
@@ -366,12 +404,16 @@ function Play() {
                   }`
                 }
                 className="w-40 rounded-sm lg:w-[45rem] ml-4 lg:ml-0"
-                alt= <img src="https://i.ytimg.com/vi/Mwf--eGs05U/maxresdefault.jpg" />
+
+                alt=<img src="https://i.ytimg.com/vi/Mwf--eGs05U/maxresdefault.jpg" />
               />
             </div>
+
           </section>
 
           {/* Similar movies section */}
+
+
           {similarMovies.length !== 0 && (
             <section>
               <div className="flex flex-wrap justify-center bg-[#000000ac]">
@@ -464,10 +506,8 @@ function Play() {
           </div>
         </>
       )}
-     <Footter></Footter>
     </div>
-  )}
-
+  );
 }
 
-export default Play
+export default Play;

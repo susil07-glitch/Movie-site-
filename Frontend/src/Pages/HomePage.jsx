@@ -11,12 +11,13 @@ import { trending ,
   horror,
   comedy
 } from '../Constant/Urls'
+import Navbar from '../Component/Navbar/Navbar'
 
 const HomePage = () => {
   const [WatchedMovie,setWatchedMovie ]=useState([])
   return (
     <div className='bg-black '>
-      <NavbarWithoutUser></NavbarWithoutUser>
+     <Navbar></Navbar>
       <Banner url={trending} ></Banner>
       <div className='w-[99%] ml-1'>
         <RowPost fisrt title="Trending Now  " url={trending} key={trending} ></RowPost>

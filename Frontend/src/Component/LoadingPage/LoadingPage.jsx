@@ -5,7 +5,7 @@ import Navbar from '../Navbar/Navbar'
 import Footter from '../Footer/Footter'
 import { useNavigate } from 'react-router-dom'
 
-import NavbarWithoutUser from '../Navbar/Navbar'
+import NavbarWithoutUser from '../Navbar/NavbarWithoutUser'
 import WelcomePageBanner from '../../ImageFile/WelcomePageBanner.jpg'
 
 
@@ -54,7 +54,7 @@ const LoadingPage = () => {
                   placeholder="Email Address"
                   className="w-full p-2 py-3 bg-amber-700 gap-2 border-amber-400 rounded-sm sm:py-4 md:py-5 md:w-3/4"
                 />
-                <Link to={"/login"}>
+                <Link to={"/home"}>
                   <button className="px-4 py-2 mt-3 font-medium text-white bg-red-700 rounded-sm sm:py-4 md:mt-0 md:pb-5 md:text-xl md:w-1/4">
                     Get Started
                   </button>
