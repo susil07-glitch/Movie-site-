@@ -19,10 +19,15 @@ const connectToDatabase = require("./Databse/Databse");
  connectToDatabase();
 
 
+ 
+
+
 
 
 app.listen(process.env.PORT,()=>{
     console.log("Backend started building")
 })
 
+
+// register api //
 

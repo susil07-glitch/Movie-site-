@@ -10,7 +10,7 @@ const  connectToDatabase= async()=>{
     }
     catch(error)
     {
-        console.error("failed to connect MongooDb" ,error)
+        console.error("failed to connect MongoDb" ,error)
     }
 }
 
