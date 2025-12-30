@@ -3,7 +3,8 @@ import {Rating} from 'react-simple-star-rating'
 import BannerImage from '../../ImageFile/BannerImage.jpg'
 import { useContext } from "react";
 import axios from "axios";
-import { imageUrl ,imageUrl2} from "../../Geners/Geners";
+import { Api_key,imageUrl ,imageUrl2} from "../../Geners/Geners";
+import usePlayMovie from "../../CostumsHooks /usePlayMovie";
 
 
 function Banner(props) {
@@ -16,6 +17,9 @@ function Banner(props) {
   const [moviePopupInfo, setMoviePopupInfo] = useState({});
   const [urlId, setUrlId] = useState("");
   const [showModal  ,setshowModal]=useState();
+  const [shouldPop,setshouldPop]=useState();
+
+  const {playMovie}=usePlayMovie();
 
 
   function getWindowSize() {
@@ -52,6 +56,25 @@ function Banner(props) {
 
       }
     }
+
+
+    // calling api to get video //
+
+    const handleMoviePopup = async(obj) => {
+    if (shouldPop) {
+      setMoviePopupInfo(obj);
+      setshowModal(true);
+     const response =await axios.get(`https://api.themoviedb.org/3/movie/${obj.id}/videos?api_key=${Api_key}&language=en-US`)
+        .then((responce) => {
+          console.log(responce.data.results);
+          if (responce.data.results.length !== 0) {
+            setUrlId(responce.data.results[0]);
+          } else {
+            console.log("Array Emptey");
+          }
+        });
+    }
+  };
   
 
 
@@ -79,6 +102,7 @@ function Banner(props) {
   
         
   return (
+    
     <>
       <div
         style={{
@@ -88,7 +112,7 @@ function Banner(props) {
               : ""
           })`
         }}
-        className="h-[50rem] md:h-[55rem] 3xl:h-[63rem] bg-cover bg-center object-contain grid items-center"
+        className="h-50rem md:h-[55rem] 3xl:h-[63rem] bg-cover bg-center object-contain grid items-center"
       >
         <div className="ml-2  mr-2 sm:mr-0 sm:ml-12 mt-[75%] sm:mt-52">
          
@@ -182,7 +206,7 @@ function Banner(props) {
                     Play
                   </button>
                   <button
-                    // onClick={() => handleMoviePopup(movie)}
+                    onClick={() => handleMoviePopup(movies)}
                     className="bg-[#33333380] flex items-center shadow-2xl mb-3 text-base sm:text-xl font-semibold text-white hover:bg-white hover:text-black transition duration-500 ease-in-out py-2 px-8 rounded-md"
                   >
                     <svg
@@ -241,7 +265,7 @@ function Banner(props) {
                         d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
-                    More Info
+                    More 
                   </button>
                 </>
               )}

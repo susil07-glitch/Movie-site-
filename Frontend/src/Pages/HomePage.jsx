@@ -12,12 +12,14 @@ import { trending ,
   comedy
 } from '../Constant/Urls'
 import Navbar from '../Component/Navbar/Navbar'
+import FadeMotion from '../Fademotion/Fademotion'
 
 const HomePage = () => {
   const [WatchedMovie,setWatchedMovie ]=useState([])
   return (
     <div className='bg-black '>
      <Navbar></Navbar>
+     
       <Banner url={trending} ></Banner>
       <div className='w-[99%] ml-1'>
         <RowPost fisrt title="Trending Now  " url={trending} key={trending} ></RowPost>
@@ -29,7 +31,7 @@ const HomePage = () => {
         <RowPost title="Horror " url={horror} key={horror}></RowPost>
         <RowPost title="Comedy " url={comedy} key={comedy}></RowPost>
         
-       
+      
         
       </div>
       <Footter></Footter>

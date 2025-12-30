@@ -15,6 +15,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Navbar from "../Component/Navbar/Navbar";
+import Footter from "../Component/Footer/Footter";
 
 function Play() {
 
@@ -109,11 +110,37 @@ function Play() {
 
   return (
     <div className='bg-black'>
-      <Navbar></Navbar>
+      <Navbar/>
 
        {PopupMessage}
 
-      <div className="mt-12 h-[31vh] sm:h-[42vh] md:h-[45vh] lg:h-[55vh] lg:mt-0 xl:h-[98vh]">
+      <div className=" flex relative mt-12 h-[31vh] sm:h-[42vh] md:h-[45vh] lg:h-[55vh] lg:mt-0 xl:h-[98vh]">
+
+                    <button
+                          className="flex absolute mx-350 mt-50 items-center hover:cursor-pointer text-red-500 background-transparent font-medium sm:font-bold uppercase px-2 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={() => 
+                           navigate('/home')
+                          }
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={2.5}
+                            stroke="currentColor"
+                            className="w-6 h-6 mr-1"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                       
+                        </button>
+
+
         {urlId ? (
           <iframe
             width="100%"
@@ -127,33 +154,7 @@ function Play() {
 
           <img src={`${imageUrl + movieDetails.backdrop_path}`} />
 
-        )}
-       
-                    <button
-                          className="flex items-center hover:cursor-pointer text-red-500 background-transparent font-medium sm:font-bold uppercase px-2 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                          type="button"
-                          onClick={() => 
-                           navigate('/home')
-                          }
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="w-6 h-6 mr-1"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>
-                       
-                        </button>
-        
-
+        )} 
       </div>
 
 
@@ -506,6 +507,8 @@ function Play() {
           </div>
         </>
       )}
+
+      <Footter></Footter>
     </div>
   );
 }
