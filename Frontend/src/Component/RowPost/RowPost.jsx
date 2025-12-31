@@ -144,8 +144,8 @@ function RowPost(props) {
 
   
         <>
-          <h1 className="text-white pb-4 xl:pb-0 font-bold font text-base sm:text-2xl md:text-4xl">
-            {props.title}
+          <h1 className="title  pb-4 xl:pb-0 font-bold font-normal text-white sm:text-2xl md:text-4xl">
+           {props.title}
           </h1> 
 
           <Swiper

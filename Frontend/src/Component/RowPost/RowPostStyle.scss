@@ -165,7 +165,7 @@
     transform: translateX(0);
   }
   .swiper-wrapper .swiper-slide:hover {
-    transform: scale(1.03);
+    transform: scale(1.02);
   }
   .swiper-slide.large {
     &:hover {
@@ -198,4 +198,8 @@
 
 .ytp-title-expanded-heading {
   display: none;
+}
+
+.title{
+  font-size:larger
 }
