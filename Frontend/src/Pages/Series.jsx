@@ -1,9 +1,10 @@
+
 import React, { useState } from 'react'
 import Banner from '../Component/Banner/Banner'
 import RowPost from '../Component/RowPost/RowPost'
 import NavbarWithoutUser from '../../src/Component/Navbar/NavbarWithoutUser'
 import Footter from '../Component/Footer/Footter'
-import { trending ,
+import {
   Animated,
   originals,
   action,
@@ -12,20 +13,24 @@ import { trending ,
   comedy,
   TopRated,
   War,
-  Adventure
+  Adventure,
+  trendingSeries
+
 } from '../Constant/Urls'
 import Navbar from '../Component/Navbar/Navbar'
 import FadeMotion from '../Fademotion/Fademotion'
 
-const HomePage = () => {
-  const [WatchedMovie,setWatchedMovie ]=useState([])
+
+
+const Series = () => {
+const [WatchedMovie,setWatchedMovie ]=useState([])
   return (
     <div className='bg-black '>
      <Navbar></Navbar>
      
-      <Banner url={trending} ></Banner>
+      <Banner url={trendingSeries} ></Banner>
       <div className='w-[99%] ml-1'>
-        <RowPost fisrt title="Trending Now  " url={trending} key={trending} ></RowPost>
+        <RowPost fisrt title="Trending Series " url={trendingSeries} key={trendingSeries} ></RowPost>
         <RowPost title="Top-Rated" url={TopRated} key={TopRated}></RowPost>
         <RowPost title="War" url={War} key={War}></RowPost>
         <RowPost title="Animated " url={Animated} key={Animated }></RowPost>
@@ -38,8 +43,10 @@ const HomePage = () => {
       
        </div>
       <Footter></Footter>
+
+
     </div>
   )
 }
 
-export default HomePage
+export default Series

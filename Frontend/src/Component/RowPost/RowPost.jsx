@@ -218,8 +218,6 @@ function RowPost(props) {
                               d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"
                             />
                           </svg>
-
-                          Play
                         </div>
 
                         {props.movieData != null ? (
@@ -322,16 +320,6 @@ function RowPost(props) {
                           obj.first_air_date}
                       </h1>
 
-                      {/* <div className="ml-4">
-                        <Rating
-                          rating={obj.vote_average / 2}
-                          starRatedColor="red"
-                          numberOfStars={5}
-                          name="rating"
-                          starDimension="0.8rem"
-                          starSpacing="0.2rem"
-                        />
-                      </div> */}
 
                       {converted &&
                         converted.map((genre) => {
@@ -370,11 +358,10 @@ function RowPost(props) {
        
           <>
             <div className="justify-center mt-5 items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-              <div className="relative w-auto mt-24 sm:my-6 mx-4 max-w-3xl">
-                {/*content*/}
 
-                 <button
-                      className="group absolute p-1 ml-2 text-amber-800 mt-2 backdrop-blur-[20px] bg-transparent border-2 border-white hover:bg-white hover:text-black fixed right-4 rounded-full cursor-pointer float-right font-semibold outline-none focus:outline-none ease-linear transition-all duration-150"
+
+              <button
+                      className="group  p-1 ml-2 text-amber-800 mt-2 backdrop-blur-[20px] bg-transparent border-2 border-white hover:bg-white hover:text-black fixed right-4 rounded-full cursor-pointer float-right font-semibold outline-none focus:outline-none ease-linear transition-all duration-150"
                       type="button"
                       onClick={() => setShowModal(false)}
                     >
@@ -394,8 +381,12 @@ function RowPost(props) {
                       </svg>
             
                     </button>
+              <div className="relative w-auto mt-24 sm:my-6 mx-4 max-w-3xl">
+                {/*content*/}
+
+                 
                
-                  <div className="border-2 relative rounded-lg shadow-lg relative flex flex-col w-full bg-neutral-800 outline-none focus:outline-none">
+                  <div className="border-2  rounded-lg shadow-lg relative flex flex-col w-full bg-neutral-800 outline-none focus:outline-none">
                     {/*header*/}
                    
 

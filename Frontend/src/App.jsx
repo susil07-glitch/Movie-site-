@@ -11,6 +11,8 @@ import Loading from './Component/Loading/Loading'
 import MoviePopUp from './Component/MoviePopUp/MoviePopUp'
 import RowPost from './Component/RowPost/RowPost'
 import Play from '../../Frontend/src/Pages/Play'
+import Series from './Pages/Series'
+import Search from './Pages/Search'
 
 
 
@@ -29,6 +31,9 @@ const App = () => {
     <Route path='/moviepopup'element={<MoviePopUp/>}></Route>
     <Route path='/rowpost'element={<RowPost/>}></Route>
     <Route path='/play/:id'element={<Play/>}></Route>
+    <Route path='/series' element={<Series/>}></Route>
+     <Route path='/search' element={<Search/>}></Route>
+
 
     
     

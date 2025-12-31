@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react'
 
-export const PopUpContex= createContext(null)
+export const PopUpContex= createContext({})
 
 
  export  default function Context2 ({children}) {
