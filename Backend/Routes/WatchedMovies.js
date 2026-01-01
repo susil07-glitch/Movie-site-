@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const WatchedMovies = require("../models/WatchedMovies");
+
+const WatchedMovie = require("../Model/WatchedMovie");
 
 // Add movie
 router.post("/add", async (req, res) => {
   const { userId, movie } = req.body;
 
   try {
-    const result = await WatchedMovies.findOneAndUpdate(
+    const result = await WatchedMovie.findOneAndUpdate(
       { userId },
       { $addToSet: { movies: movie } }, // like arrayUnion
       { upsert: true, new: true }
@@ -19,12 +20,14 @@ router.post("/add", async (req, res) => {
   }
 });
 
-// Remove movie
+// Remove movie//
+
+
 router.post("/remove", async (req, res) => {
   const { userId, movie } = req.body;
 
   try {
-    await WatchedMovies.findOneAndUpdate(
+    await WatchedMovie.findOneAndUpdate(
       { userId },
       { $pull: { movies: movie } } // like arrayRemove
     );

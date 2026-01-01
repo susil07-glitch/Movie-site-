@@ -3,14 +3,13 @@ const express=require('express')
 const router=express.Router();
 
 const jwt=require('jsonwebtoken')
-const User=require('../Model/User')
 const bcrypt=require('bcryptjs');
 const User = require('../Model/User');
 
 
 /*----------Sing up -------------------*/
 
-router.post("/singUp", async ( req,res)=>{
+router.post("/signup", async ( req,res)=>{
     const {email,name,password}=req.body;
 
     try{
@@ -33,12 +32,13 @@ router.post("/singUp", async ( req,res)=>{
         const salt = await bcrypt.genSalt(10);
         const hashedPassword=await bcrypt.hash(password,salt)
 
-        const User= User.create({
+        const User=new User({
             name,
             email,
             password,
 
         })
+
    const token=jwt.sign({id: User_id}, process.env.JWT_TOKEN,{
         expiresIn:"7d",
    })
@@ -48,14 +48,16 @@ router.post("/singUp", async ( req,res)=>{
         _id:User_id,
         name:User.name,
         email:User.email,
+        password:User.password
 
     }
     ,
    })
 
-    }catch(error){
+    }
+    catch(error){
         res.status(500).json({
-            message:"erroe.message"
+            message:"Something went wrong"
 
         })
     }
@@ -108,7 +110,7 @@ router.post("/login", async(res,req)=>{
 })
 
 
- module.exports=router ;
+ module.exports = router ;
 
 
 

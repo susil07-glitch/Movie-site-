@@ -12,4 +12,4 @@ const WatchedMoviesSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("WatchedMovies", WatchedMoviesSchema);
+module.exports = mongoose.model("WatchedMovie", WatchedMoviesSchema);
