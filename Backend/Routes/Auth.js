@@ -9,59 +9,41 @@ const User = require('../Model/User');
 
 /*----------Sing up -------------------*/
 
-router.post("/signup", async ( req,res)=>{
-    const {email,name,password}=req.body;
 
-    try{
-        if(!email || !name || !password ){
-            return res.status(400).json({
-                message:"All fields are required "
-            })
+router.post("/signup", async (req, res) => {
+    const { name, email, password } = req.body;
 
-        }
+  try {
 
-        const UserExist = await User.findOne({email})
-
-        if (UserExist){
-            return res.status(400).json({
-
-                message:"User already exist"
-
-            })
-        }
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword=await bcrypt.hash(password,salt)
-
-        const User=new User({
-            name,
-            email,
-            password,
-
-        })
-
-   const token=jwt.sign({id: User_id}, process.env.JWT_TOKEN,{
-        expiresIn:"7d",
-   })
-   res.status(201).json({
-    token,
-    User:{
-        _id:User_id,
-        name:User.name,
-        email:User.email,
-        password:User.password
-
+    if (!name || !email || !password) {
+      return res.status(400).json({ 
+        message: "All fields required" 
+          });
     }
-    ,
-   })
 
-    }
-    catch(error){
-        res.status(500).json({
-            message:"Something went wrong"
+    
 
-        })
-    }
-})
+    const User = User.create({
+      name,
+      email,
+      password,
+    });
+
+     await User.save();
+
+    res.status(201).json({
+      message: "User registered successfully",
+      
+    });
+    console.log(req.body)
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+         message: error.message 
+        });
+  }
+});
 
 
 
