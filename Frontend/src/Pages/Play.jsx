@@ -23,7 +23,7 @@ function Play() {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const [showModal,setShowModal]=useState(true);
+  const [showModal,setShowModal]=useState();
   const [urlId, setUrlId] = useState(null);
   const [movieDetails, setMovieDetails] = useState({});
   const [moreTrailerVideos, setMoreTrailerVideos] = useState([]);
@@ -120,7 +120,7 @@ function Play() {
                           className="flex absolute mx-350 mt-50 items-center hover:cursor-pointer text-red-500 background-transparent font-medium sm:font-bold uppercase px-2 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                           type="button"
                           onClick={() => 
-                           navigate('/home')
+                           setShowModal(false)
                           }
                         >
                           <svg

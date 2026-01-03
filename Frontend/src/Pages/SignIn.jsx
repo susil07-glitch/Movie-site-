@@ -14,7 +14,7 @@ const SignIn = () => {
     </div>
     <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <img className="mx-auto h-12 w-auto" src="https://i.imgur.com/7VadfzF.png" alt="Your Company" />
+        <img className="mx-auto h-12 w-auto" src="https://chatgpt.com/s/m_69597d18283c819182ab10d91c1ba399" alt="Your Company" />
         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Sign in to your account
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">

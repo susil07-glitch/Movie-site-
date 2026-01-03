@@ -396,10 +396,10 @@ function RowPost(props) {
                       <YouTube
                         opts={opts}
                         videoId={urlId.key}
-                        className="YouTubeVid"
+                        className="YouTubeVid  bg-cover "
                       />
                     ) : (
-                      <img src={`${imageUrl + moviePopupInfo.backdrop_path}`}  className=" bg-cover" 
+                      <img src={`${imageUrl + moviePopupInfo.backdrop_path}`}  className="bg-cover" 
                       onClick={()=>{
                         playMovie(moviePopupInfo);
                       }}

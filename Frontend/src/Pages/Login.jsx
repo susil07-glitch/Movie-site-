@@ -2,7 +2,7 @@ import React from 'react'
 
 const Login = () => {
   return (
-   <div>
+   <div className='bg-black '>
   <div className="py-20">
     <div className="flex h-full items-center justify-center">
       <div className="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 flex-col flex h-full items-center justify-center sm:px-4">

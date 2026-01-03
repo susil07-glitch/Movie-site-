@@ -69,12 +69,8 @@ function Navbar(props) {
           <div className="px-4 mx-auto max-w-8xl sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <img
-                    className="h-6 cursor-pointer w-18"
-                    src="https://fontmeme.com/permalink/250902/1c1670dd6284f8d01001e1c74b52aae3.png"
-                    alt="NETFLIX"
-                  />
+                <div className="flex-shrink-0 text-red-800 font-bold text-3xl sm:text-xl md:text-2xl">
+                  CineVerse
                 </div>
                 <div className="hidden md:block">
                   <div className="flex items-center ml-10 space-x-4">
