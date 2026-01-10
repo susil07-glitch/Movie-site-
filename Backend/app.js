@@ -8,6 +8,7 @@ const app=express();
 /*---------MiddleWare-------------*/
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 
 
 const {multer,storage}=require("./MiddleWare/MulterConfigure")
