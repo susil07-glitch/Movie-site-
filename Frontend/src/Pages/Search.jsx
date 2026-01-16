@@ -23,19 +23,16 @@ function Search() {
   const [movies, setMovies] = useState([]);
   const [moviePopupInfo, setMoviePopupInfo] = useState({});
 
-  const Search = (e) => {
+  const Search = async (e) => {
     setSearchQuery(e.target.value);
     e.preventDefault();
     console.log(searchQuery);
 
-    axios
-      .get(
-        `${baseURL}/search/movie?api_key=${Api_key}&language=en-US&query=${searchQuery}&page=1&include_adult=false`
-      )
-      .then((response) => {
+    const response =  await axios.get(`${baseURL}/search/movie?api_key=${Api_key}&language=en-US&query=${searchQuery}&page=1&include_adult=false`)
+    if (response.status=== 201) {
         console.log(response.data.results);
         setMovies(response.data.results);
-      });
+      }
 
     if (searchQuery === "") {
       setMovies([]);
@@ -50,8 +47,7 @@ function Search() {
 
 
   return (
-    <div className="bg-black">
-        <Navbar></Navbar>
+    <div className=" bg-cyan-950">
      
 
       <div className="flex justify-center mt-20 mb-8">
@@ -234,7 +230,7 @@ function Search() {
         )}
       </div>
 
-      {/* {showModal ? <MoviePopUp data1={moviePopupInfo} /> : null} */}
+      {showModal ? <MoviePopUp data1={moviePopupInfo} /> : null}
     </div>
   );
 }

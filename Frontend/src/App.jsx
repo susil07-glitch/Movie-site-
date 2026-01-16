@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import LoadingPage from './Component/LoadingPage/LoadingPage'
 import HomePage from './Pages/HomePage'
@@ -18,10 +18,12 @@ import Search from './Pages/Search'
 
 const App = () => {
   return (
-   <BrowserRouter>
+    <BrowserRouter>
    <Routes>
     <Route path='/'element={<LoadingPage/>}></Route>
+
     <Route path='/home'element={<HomePage/>}></Route>
+
     <Route path='/Signin'element={<SignIn/>}></Route>
     <Route path='/Signup'element={<Signup/>}></Route>
     <Route path='/login'element={<Login/>}></Route>

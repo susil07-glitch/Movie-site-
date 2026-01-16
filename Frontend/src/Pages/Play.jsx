@@ -23,7 +23,7 @@ function Play() {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const [showModal,setShowModal]=useState();
+  const [showModal,setShowModal]=useState(true);
   const [urlId, setUrlId] = useState(null);
   const [movieDetails, setMovieDetails] = useState({});
   const [moreTrailerVideos, setMoreTrailerVideos] = useState([]);

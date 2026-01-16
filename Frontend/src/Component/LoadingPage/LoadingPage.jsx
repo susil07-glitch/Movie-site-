@@ -18,10 +18,10 @@ const LoadingPage = () => {
  <div>
     
     <NavbarWithoutUser/>
-      <div className="bg-cover bg-center z-10010 "
+      <div className="bg-cover bg-center z-10010 drop-shadow-amber-900"
       style={{
         
-        backgroundImage:`url(${WelcomePageBanner})`
+        backgroundImage:`url(https://i.pinimg.com/736x/07/b1/3b/07b13b23ac35417490c0cad6fb936c1a.jpg)`
       }}
       >
           <section id="home" className="hero-bg min-h-screen flex items-center justify-center relative">
@@ -43,20 +43,13 @@ const LoadingPage = () => {
       
 
              <div className='gap-2.5'>
-                <input
-                  placeholder="Email Address"
-                  className="w-full p-2 py-3 bg-amber-700 gap-2 text-white border-amber-400 rounded-sm sm:py-4 md:py-5 md:w-3/4 required:"
-                />
+               
                 <Link to={"/home"}>
                   <button className="px-4 py-2 mt-3 font-medium text-white bg-red-700 rounded-sm sm:py-4 md:mt-0 md:pb-5 md:text-xl md:w-1/4">
                     Get Started
                   </button>
                 </Link>
-                <div className="note bg-white">
-                 <p className='text-4xl font-bold text-rose-900'>
-                  Note:- Please don't provide your real details !
-                  </p> 
-                </div>
+                
               </div>
     </div>
   </section>
