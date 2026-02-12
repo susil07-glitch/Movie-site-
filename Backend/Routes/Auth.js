@@ -7,7 +7,7 @@ const bcrypt=require('bcryptjs');
 const User = require('../../Backend/Model/User');
 
 
-/*----------Sing up -------------------*/
+           /*----------Sing up -------------------*/
 
 
 router.post("/signup", async (req, res) => {
@@ -44,12 +44,14 @@ router.post("/signup", async (req, res) => {
         id:user._id,
         name:user.name,
         email:user.email,
-        CreateAt:user.createAt,
+        CreateAt:user.CreateAt,
         
 
       }
       
+      
     });
+    console.log(user)
     
   } catch (error) {
     console.error(error);
@@ -119,6 +121,7 @@ router.post("/login", async (req, res) => {
         email: user.email,
       },
     });
+    console.log("login successful ",user)
 
   } 
   
