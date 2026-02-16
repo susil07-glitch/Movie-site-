@@ -1,10 +1,13 @@
 import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../Contex/UserContex'
+import axios from 'axios'
+import NavbarWithoutUser from '../Component/Navbar/NavbarWithoutUser'
+import Footter from '../Component/Footer/Footter'
 
 const Login = () => {
   const navigate = useNavigate()
-  const { setUser } = useContext(AuthContext)
+  
   
   const [formData, setFormData] = useState({
     email: '',
@@ -23,7 +26,6 @@ const Login = () => {
     }))
     setError('')
 
-    console.log(formData)
   }
 
   const validateForm = () => {
@@ -54,40 +56,48 @@ const Login = () => {
     setLoading(true)
     
     try {
-      const response = await fetch('http://localhost:3000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-      })
-      
-      const data = await response.json()
-      
-      if (!response.ok) {
-        setError(data.message || 'Login failed')
-        return
-      }
-      
-      // Store token and user data
-      localStorage.setItem('token', data.token)
-      localStorage.setItem('user', JSON.stringify(data.user))
-      
-      // Update context
-      setUser(data.user)
-      
-      // Redirect to home page
-      navigate('/')
-    } catch (err) {
-      setError('Connection error. Please try again.')
-      console.error('Login error:', err)
-    } finally {
+      const response = await axios.post('https://movie-site-backend-809o.onrender.com/api/auth/login',formData
+  );
+
+  const data = response.data;  
+
+  console.log("Login success:", data);
+
+  // Store token
+  localStorage.setItem('token', data.token);
+
+
+  if(response.status === 200){
+    alert("Login Successful")
+    navigate('/home')
+  }
+
+  if(response.status === 400){
+    alert("Login Filed , Please check your Credential")
+    navigate('/signup ')
+  }
+
+
+} catch (err) {
+  console.log("Full error object:", err);
+
+  if (err.response && err.response.data) {
+    setError(err.response.data.message || "Login failed");
+  } else {
+    setError("Server not responding. Please try again.");
+  }
+}
+
+    
+    finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className='bg-black min-h-screen'>
+    
+    <div className='bg-amber-700 min-h-screen'>
+      <NavbarWithoutUser/>
       <div className="py-20">
         <div className="flex h-full items-center justify-center">
           <div className="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 flex-col flex h-full items-center justify-center sm:px-4 w-full max-w-md mx-4">
@@ -219,6 +229,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+      <Footter></Footter>
     </div>
   )
 }

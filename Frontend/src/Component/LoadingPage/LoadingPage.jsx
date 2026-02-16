@@ -44,9 +44,9 @@ const LoadingPage = () => {
 
              <div className='gap-2.5'>
                
-                <Link to={"/home"}>
+                <Link to={"/login"}>
                   <button className="px-4 py-2 mt-3 font-medium text-white bg-red-700 rounded-sm sm:py-4 md:mt-0 md:pb-5 md:text-xl md:w-1/4">
-                    Get Started
+                    Login
                   </button>
                 </Link>
                 
