@@ -78,7 +78,11 @@ router.post("/login", async (req, res) => {
 
     // validation //
 
-   
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Email and password are required",
+      });
+    }
 
     //  to check the user is or not //
 
