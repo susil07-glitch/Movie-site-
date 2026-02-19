@@ -11,11 +11,11 @@ const User = require('../../Backend/Model/User');
 
 
 router.post("/signup", async (req, res) => {
-    const { name, email, password } = req.body;
+    const { UserName, email, password } = req.body;
 
   try {
 
-    if (!name || !email || !password) {
+    if (!UserName || !email || !password) {
       return res.status(400).json({ 
         message: "All fields required" 
           });
