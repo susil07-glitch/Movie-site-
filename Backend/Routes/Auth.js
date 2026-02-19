@@ -33,7 +33,7 @@ router.post("/signup", async (req, res) => {
     const hashPassword= await bcrypt.hash(password,salt)
 
     const user= await  User.create({
-      name,
+      UserName,
       email,
       password:hashPassword,
     });
@@ -42,7 +42,7 @@ router.post("/signup", async (req, res) => {
       message: "User registered successfully",
       user:{
         id:user._id,
-        name:user.name,
+        UserName:user.UserName,
         email:user.email,
         CreateAt:user.CreateAt,
         
