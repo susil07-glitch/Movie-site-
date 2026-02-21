@@ -56,7 +56,7 @@ const Login = () => {
     setLoading(true)
     
     try {
-      const response = await axios.post('https://movie-site-backend-809o.onrender.com/api/auth/login',formData
+      const response = await axios.post('https://movie-site-backend-7q6e.onrender.com/api/auth/login',formData
   );
 
   const data = response.data;  
@@ -72,8 +72,8 @@ const Login = () => {
     navigate('/home')
   }
 
-  if(response.status === 400){
-    alert("Login Filed , Please check your Credential")
+  if(response.status !== 200){
+    alert("Login Failed, Please check your credentials")
     navigate('/signup ')
   }
 
