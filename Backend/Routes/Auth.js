@@ -11,7 +11,7 @@ const User = require('../../Backend/Model/User');
 
 
 router.post("/signup", async (req, res) => {
-    const { UserName, email, password } = req.body;
+    const {UserName, email, password } = req.body;
 
   try {
 
